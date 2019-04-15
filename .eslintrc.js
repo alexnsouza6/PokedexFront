@@ -18,6 +18,7 @@ module.exports = {
   plugins: ["react"],
   rules: {
     quotes: ["error", "double"],
+    "arrow-body-style": ["error", "always"],
     "react/jsx-filename-extension": "off"
   }
 };
