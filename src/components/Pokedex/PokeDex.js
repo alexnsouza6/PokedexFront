@@ -38,8 +38,12 @@ class PokeDex extends Component {
                     <Card.Header>{pokemon.name}</Card.Header>
                     <Card.Description>
                       <List>
-                        {pokemon.types.map(type => {
-                          return <List.Item>{type.description}</List.Item>;
+                        {pokemon.types.map((type, index) => {
+                          return (
+                            <List.Item key={index}>
+                              {type.description}
+                            </List.Item>
+                          );
                         })}
                       </List>
                     </Card.Description>
