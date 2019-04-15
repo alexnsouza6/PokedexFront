@@ -20,7 +20,7 @@ class Pokemon extends Component {
           <Header as="h1">{pokemon.name}</Header>
           <Image src={pokemon.image_url} />
           <List as="ol">
-            {pokemon.types.map(type => {
+            {pokemon.types.map((type, index) => {
               return <List.Item as="li">{type.description}</List.Item>;
             })}
           </List>
