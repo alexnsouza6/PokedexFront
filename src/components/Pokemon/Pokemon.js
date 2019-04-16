@@ -23,8 +23,13 @@ class Pokemon extends Component {
     window.location.href = `${process.env.REACT_APP_MAIN}`;
   };
 
+  handleEditRedirect = id => {
+    this.props.history.push(`/edit-pokemon/${id}`);
+  };
+
   render() {
     const { pokemon } = this.state;
+
     if (pokemon && pokemon.types) {
       return (
         <Fragment>
@@ -41,9 +46,12 @@ class Pokemon extends Component {
             })}
           </List>
           <Button onClick={() => this.handlePokemonDeletion(pokemon.id)}>
-            {" "}
-            Delete this pokemon{" "}
+            Delete this pokemon
           </Button>
+          <Button onClick={() => this.handleEditRedirect(pokemon.id)}>
+            Edit this pokemon
+          </Button>
+
           {pokemon.evolutions[0] && (
             <Fragment>
               <Header as="h2">Evolutions</Header>
