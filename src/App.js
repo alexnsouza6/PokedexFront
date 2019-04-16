@@ -11,7 +11,7 @@ const App = () => {
       <Switch>
         <Route exact path="/" render={props => <PokeDex {...props} />} />
         <Route path="/pokemon/:id" render={props => <Pokemon {...props} />} />
-        <Route path="/pokemon/edit/:id" component={PokemonEdit} />} />
+        <Route path="/edit-pokemon/:id" component={PokemonEdit} />} />
         <Route path="/create-pokemon" component={PokemonCreate} />
       </Switch>
     </Router>
