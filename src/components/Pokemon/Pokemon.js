@@ -3,7 +3,7 @@ import { Image, Header, List, Card, Loader, Button } from "semantic-ui-react";
 import { connect } from "react-redux";
 import axios from "axios";
 
-class Pokemon extends Component {
+export class Pokemon extends Component {
   state = { pokemon: {} };
 
   async componentDidMount() {

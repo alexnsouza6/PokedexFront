@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div>
+  <h1
+    className="ui header"
+  >
+     Create your own pokemon! 
+  </h1>
+  <form
+    onSubmit={[Function]}
+  >
+    <label
+      htmlFor=""
+    >
+       Pokemon Name 
+    </label>
+    <input
+      onChange={[Function]}
+      type="text"
+      value=""
+    />
+    <br />
+    <label
+      htmlFor="pokemon-image"
+    >
+       Pokemon Picture 
+    </label>
+    <input
+      onChange={[Function]}
+      type="file"
+    />
+    <br />
+    <label
+      htmlFor=""
+    >
+      Pokemon Type
+    </label>
+    <input
+      onChange={[Function]}
+      type="text"
+      value=""
+    />
+    <br />
+    <label
+      htmlFor=""
+    >
+      Pokemon Evolution (Type its ID)
+    </label>
+    <input
+      onChange={[Function]}
+      type="text"
+      value=""
+    />
+    <br />
+    <button
+      className="ui button"
+      onClick={[Function]}
+      type="submit"
+    >
+       Submit 
+    </button>
+  </form>
+</div>
+`;

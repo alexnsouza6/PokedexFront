@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="ui grid"
+>
+  <div
+    className="row"
+  >
+    <img
+      className="ui image pokemon-logo"
+      src="pokemon_logo.png"
+    />
+  </div>
+  <a
+    href="/create-pokemon"
+    onClick={[Function]}
+  >
+    <button
+      className="ui button"
+      onClick={[Function]}
+    >
+      Create a pokemon
+    </button>
+  </a>
+  <div
+    className="ui icon input"
+  >
+    <input
+      onChange={[Function]}
+      placeholder="Search..."
+      type="text"
+      value=""
+    />
+    <i
+      aria-hidden="true"
+      className="search circular inverted link icon"
+      onClick={[Function]}
+    />
+  </div>
+  <div
+    className="row"
+  />
+</div>
+`;

@@ -3,7 +3,7 @@ import { Button, Header } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { createPokemon } from "./actions/PokemonActions";
 
-class PokemonCreate extends Component {
+export class PokemonCreate extends Component {
   state = {
     pokemonName: "",
     pokemonImage: {},

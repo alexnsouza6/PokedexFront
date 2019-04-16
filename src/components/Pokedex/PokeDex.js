@@ -14,7 +14,7 @@ import { fetchPokemons } from "./actions/PokeDexActions";
 import "./style.css";
 import axios from "axios";
 
-class PokeDex extends Component {
+export class PokeDex extends Component {
   state = {
     pokemonName: ""
   };
