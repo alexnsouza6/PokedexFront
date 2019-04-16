@@ -1,16 +1,27 @@
 import React, { Component, Fragment } from "react";
-import { Image, Header, List } from "semantic-ui-react";
+import { Image, Header, List, Card, Loader, Button } from "semantic-ui-react";
 import { connect } from "react-redux";
+import axios from "axios";
 
 class Pokemon extends Component {
   state = { pokemon: {} };
 
-  componentDidMount() {
+  async componentDidMount() {
     const { match } = this.props;
     const { params } = match;
-    const pokemonID = parseInt(params.id) - 1;
-    this.setState({ pokemon: this.props.pokemons.byID[pokemonID] });
+    const response = await axios.get(
+      `${process.env.REACT_APP_POKEDEX_API_URL}/pokemons/${params.id}`
+    );
+    this.setState({ pokemon: response.data });
   }
+
+  handlePokemonDeletion = async id => {
+    await axios({
+      method: "delete",
+      url: `${process.env.REACT_APP_POKEDEX_API_URL}/pokemons/${id}`
+    });
+    window.location.href = `${process.env.REACT_APP_MAIN}`;
+  };
 
   render() {
     const { pokemon } = this.state;
@@ -18,16 +29,42 @@ class Pokemon extends Component {
       return (
         <Fragment>
           <Header as="h1">{pokemon.name}</Header>
-          <Image src={pokemon.image_url} />
+          <Image src={pokemon.image} />
+          <Header as="h4">Types</Header>
           <List as="ol">
             {pokemon.types.map((type, index) => {
-              return <List.Item as="li">{type.description}</List.Item>;
+              return (
+                <List.Item as="li" key={index}>
+                  {type.description}
+                </List.Item>
+              );
             })}
           </List>
+          <Button onClick={() => this.handlePokemonDeletion(pokemon.id)}>
+            {" "}
+            Delete this pokemon{" "}
+          </Button>
+          {pokemon.evolutions[0] && (
+            <Fragment>
+              <Header as="h2">Evolutions</Header>
+              <List>
+                {pokemon.evolutions.map((pokemon, index) => {
+                  return (
+                    <Card key={index}>
+                      <Image src={pokemon.image} size="small" />
+                      <Card.Content>
+                        <Card.Header>{pokemon.name}</Card.Header>
+                      </Card.Content>
+                    </Card>
+                  );
+                })}
+              </List>
+            </Fragment>
+          )}
         </Fragment>
       );
     } else {
-      return <h1>Loading...</h1>;
+      return <Loader active />;
     }
   }
 }

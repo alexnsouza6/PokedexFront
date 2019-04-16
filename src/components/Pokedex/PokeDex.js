@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Card, Image, Grid } from "semantic-ui-react";
+import { Card, Image, Grid, Loader, Button } from "semantic-ui-react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { fetchPokemons } from "./actions/PokeDexActions";
 import "./style.css";
 
@@ -25,12 +26,15 @@ class PokeDex extends Component {
               src={require("../../assets/pokemon_logo.png")}
             />
           </Grid.Row>
+          <Link to="/create-pokemon">
+            <Button>Criar um pokemon</Button>
+          </Link>
           <Grid.Row>
             {this.props.pokemons.byID.map((pokemon, index) => {
               return (
                 <Grid.Column width={5} key={index}>
                   <Card onClick={() => this.handlePokemonSelect(pokemon)}>
-                    <Image src={pokemon.image_url} size="small" />
+                    <Image src={pokemon.image} size="small" />
                     <Card.Content>
                       <Card.Header>{pokemon.name}</Card.Header>
                     </Card.Content>
@@ -42,7 +46,7 @@ class PokeDex extends Component {
         </Grid>
       );
     } else {
-      return <div> LOADING...</div>;
+      return <Loader active />;
     }
   }
 }
