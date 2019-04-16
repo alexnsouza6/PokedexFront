@@ -1,4 +1,4 @@
-import FETCH_POKEMON from "./consts";
+import { FETCH_POKEMON } from "./consts";
 import axios from "axios";
 
 export const fetchPokemons = () => async dispatch => {
