@@ -1,61 +1,99 @@
 import React, { Component } from "react";
-import { Card, Image, Grid, List } from "semantic-ui-react";
-import axios from "axios";
+import {
+  Card,
+  Image,
+  Grid,
+  Loader,
+  Button,
+  Input,
+  Icon
+} from "semantic-ui-react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { fetchPokemons } from "./actions/PokeDexActions";
 import "./style.css";
+import axios from "axios";
 
-class PokeDex extends Component {
-  // TO DO: put some margin: 0 auto at Image
+export class PokeDex extends Component {
+  state = {
+    pokemonName: ""
+  };
 
-  state = { pokemons: [] };
-
-  async componentDidMount() {
-    const response = await axios.get(
-      `${process.env.REACT_APP_POKEDEX_API_URL}/pokemons`
-    );
-    this.setState({ pokemons: response.data });
+  componentDidMount() {
+    this.props.fetchPokemons();
   }
 
   handlePokemonSelect = pokemon => {
     this.props.history.push(`/pokemon/${pokemon.id}`);
   };
 
-  render() {
-    return (
-      <Grid>
-        <Grid.Row>
-          <Image
-            className="pokemon-logo"
-            src={require("../../assets/pokemon_logo.png")}
-          />
-        </Grid.Row>
-        <Grid.Row>
-          {this.state.pokemons.map((pokemon, index) => {
-            return (
-              <Grid.Column width={5} key={index}>
-                <Card onClick={() => this.handlePokemonSelect(pokemon)}>
-                  <Image src={pokemon.image_url} />
-                  <Card.Content>
-                    <Card.Header>{pokemon.name}</Card.Header>
-                    <Card.Description>
-                      <List>
-                        {pokemon.types.map((type, index) => {
-                          return (
-                            <List.Item key={index}>
-                              {type.description}
-                            </List.Item>
-                          );
-                        })}
-                      </List>
-                    </Card.Description>
-                  </Card.Content>
-                </Card>
-              </Grid.Column>
-            );
-          })}
-        </Grid.Row>
-      </Grid>
+  handleNameChange = e => {
+    this.setState({ pokemonName: e.target.value });
+  };
+
+  handlePokemonSearch = async () => {
+    const response = await axios.post(
+      `${process.env.REACT_APP_POKEDEX_API_URL}/find-pokemon`,
+      { name: this.state.pokemonName }
     );
+    const pokemon = response.data;
+    this.props.history.push(`/pokemon/${pokemon.id}`);
+  };
+
+  render() {
+    if (this.props.pokemons.byID) {
+      return (
+        <Grid>
+          <Grid.Row>
+            <Image
+              className="pokemon-logo"
+              src={require("../../assets/pokemon_logo.png")}
+            />
+          </Grid.Row>
+          <Link to="/create-pokemon">
+            <Button>Create a pokemon</Button>
+          </Link>
+          <Input
+            icon={
+              <Icon
+                name="search"
+                inverted
+                circular
+                link
+                onClick={this.handlePokemonSearch}
+              />
+            }
+            value={this.state.pokemonName}
+            onChange={this.handleNameChange}
+            placeholder="Search..."
+          />
+          <Grid.Row>
+            {this.props.pokemons.byID.map((pokemon, index) => {
+              return (
+                <Grid.Column width={5} key={index}>
+                  <Card onClick={() => this.handlePokemonSelect(pokemon)}>
+                    <Image src={pokemon.image} size="small" />
+                    <Card.Content>
+                      <Card.Header>{pokemon.name}</Card.Header>
+                    </Card.Content>
+                  </Card>
+                </Grid.Column>
+              );
+            })}
+          </Grid.Row>
+        </Grid>
+      );
+    } else {
+      return <Loader active />;
+    }
   }
 }
 
-export default PokeDex;
+const mapStateToProps = state => ({
+  pokemons: state.pokemons
+});
+
+export default connect(
+  mapStateToProps,
+  { fetchPokemons }
+)(PokeDex);

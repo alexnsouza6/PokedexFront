@@ -19,6 +19,7 @@ module.exports = {
   rules: {
     quotes: ["error", "double"],
     "arrow-body-style": ["error", "always"],
+    "import/prefer-default-export" "off",
     "react/jsx-filename-extension": "off"
   }
 };
