@@ -1,18 +1,42 @@
 import React, { Component } from "react";
-import { Card, Image, Grid, Loader, Button } from "semantic-ui-react";
+import {
+  Card,
+  Image,
+  Grid,
+  Loader,
+  Button,
+  Input,
+  Icon
+} from "semantic-ui-react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchPokemons } from "./actions/PokeDexActions";
 import "./style.css";
+import axios from "axios";
 
 class PokeDex extends Component {
-  // TO DO: align all pokemons in center of page
+  state = {
+    pokemonName: ""
+  };
 
   componentDidMount() {
     this.props.fetchPokemons();
   }
 
   handlePokemonSelect = pokemon => {
+    this.props.history.push(`/pokemon/${pokemon.id}`);
+  };
+
+  handleNameChange = e => {
+    this.setState({ pokemonName: e.target.value });
+  };
+
+  handlePokemonSearch = async () => {
+    const response = await axios.post(
+      `${process.env.REACT_APP_POKEDEX_API_URL}/find-pokemon`,
+      { name: this.state.pokemonName }
+    );
+    const pokemon = response.data;
     this.props.history.push(`/pokemon/${pokemon.id}`);
   };
 
@@ -27,8 +51,22 @@ class PokeDex extends Component {
             />
           </Grid.Row>
           <Link to="/create-pokemon">
-            <Button>Criar um pokemon</Button>
+            <Button>Create a pokemon</Button>
           </Link>
+          <Input
+            icon={
+              <Icon
+                name="search"
+                inverted
+                circular
+                link
+                onClick={this.handlePokemonSearch}
+              />
+            }
+            value={this.state.pokemonName}
+            onChange={this.handleNameChange}
+            placeholder="Search..."
+          />
           <Grid.Row>
             {this.props.pokemons.byID.map((pokemon, index) => {
               return (
