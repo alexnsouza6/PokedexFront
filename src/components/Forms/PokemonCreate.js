@@ -7,16 +7,11 @@ export class PokemonCreate extends Component {
   state = {
     pokemonName: "",
     pokemonImage: {},
-    pokemonType: "",
     pokemonEvolutionID: ""
   };
 
   handlePokemonNameChange = e => {
     this.setState({ pokemonName: e.target.value });
-  };
-
-  handlePokemonType = e => {
-    this.setState({ pokemonType: e.target.value });
   };
 
   handlePokemonEvolution = e => {
@@ -30,15 +25,10 @@ export class PokemonCreate extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const type = [
-      { description: this.state.pokemonType },
-      { description: "grass" }
-    ];
     const fd = new FormData();
     fd.append("image_url", this.state.pokemonImage);
     fd.append("name", this.state.pokemonName);
     fd.append("evolution_id", this.state.pokemonEvolutionID);
-    fd.append("pokemon_types[]", JSON.stringify(type));
     this.props.createPokemon(fd, () => this.props.history.push("/"));
   };
 
@@ -56,13 +46,6 @@ export class PokemonCreate extends Component {
           <br />
           <label htmlFor="pokemon-image"> Pokemon Picture </label>
           <input type="file" onChange={this.fileSelectedHandler} />
-          <br />
-          <label htmlFor={this.state.pokemonType}>Pokemon Type</label>
-          <input
-            type="text"
-            value={this.state.pokemonType}
-            onChange={this.handlePokemonType}
-          />
           <br />
           <label htmlFor={this.state.pokemonEvolutionID}>
             Pokemon Evolution (Type its ID)
